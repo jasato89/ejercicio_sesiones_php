@@ -1,4 +1,8 @@
-<?php include 'database.php';
+<?php session_start();
+
+include 'database.php';
+
+
 
 if (isset($_POST['submit'])) {
     $user = isset($_POST['user']) ? strtolower($_POST['user']) : '';
@@ -8,9 +12,8 @@ if (isset($_POST['submit'])) {
     if (isset($users[$user]) && $users[$user] == $pwd) {
 
         if (isset($_POST['remember'])) {
-            setcookie('email', $user, time() + 60 * 60 * 7);
+            setcookie('email', $user, time() + 60 * 60 * 24 * 7);
         }
-        session_start();
         $_SESSION['email'] = $user;
         header('Location: welcome.php');
     } else {
