@@ -2,6 +2,16 @@
 
 include 'database.php';
 
+if (isset($_SESSION['timelock'])) {
+    if ($_SESSION['timelock'] + (120) > time()) {
+        unset($_SESSION['error']);
+        header('Location: index.php');
+        return;
+    } else {
+        unset($_SESSION['timelock']);
+    }
+}
+
 
 
 if (isset($_POST['submit'])) {
@@ -14,9 +24,14 @@ if (isset($_POST['submit'])) {
         if (isset($_POST['remember'])) {
             setcookie('email', $user, time() + 60 * 60 * 24 * 7);
         }
-        $_SESSION['email'] = $user;
+        $_SESSION['user'] = $user;
         header('Location: welcome.php');
     } else {
-        echo "Wrong e-mail or pwd";
+        if (isset($_SESSION['error'])) {
+            $_SESSION['error']++;
+        } else {
+            $_SESSION['error'] = 1;
+        }
+        header('Location: index.php');
     }
 }

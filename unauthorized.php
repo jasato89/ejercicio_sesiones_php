@@ -1,4 +1,4 @@
 <?php 
-echo 'Wrong access';
+header('location: index.php');
 
 ?>

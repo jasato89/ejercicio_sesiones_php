@@ -1,12 +1,9 @@
 <?php
 session_start();
 
-if(!isset($_SESSION['email'])) {
+if(!isset($_SESSION['user'])) {
     header('Location: unauthorized.php');
 }
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +23,7 @@ if(!isset($_SESSION['email'])) {
             <div class="row p-3 h-100">
                 <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto my-auto text-center form border-dark rounded p-4 bg-dark text-light">
                     <h1 class="display-4 py-1">Welcome</h1>
-                    <h2 class="display-10 py-2"><?php echo  $_SESSION['email']; ?></h2>
+                    <h2 class="display-10 py-2"><?php echo  $_SESSION['user']; ?></h2>
                     <a href="logout.php" class="btn btn-primary py-1">Cerrar sesión</a>
                 </div>
             </div>

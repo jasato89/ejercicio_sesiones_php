@@ -1,3 +1,17 @@
+<?php
+session_start();
+
+if (isset($_SESSION['error'])) {
+    $error = $_SESSION['error'];
+
+    if ($error > 5) {
+        $_SESSION['timelock'] = time();
+    }
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,20 +37,40 @@
                             <div class="form-group p-1">
                                 <input id="pwd" name="pwd" type="password" placeholder="Contraseña" class="form-control input-md" required="">
                             </div>
-                            <div class="form-group p-1">
-                                <input id="remember" name="remember" type="checkbox" value= "1" class="px-1"><label class="px-1">Remember me</label>
+                            <?php
+
+
+                            if (isset($error) && !isset($_SESSION['timelock'])) {
+                            ?>
+                                <div class="form-group bg-warning rounded mt-2">
+                                    <p class="col-md-12 control-label text-danger">Error. Número de errores: <?php echo $error ?></p>
+                                </div>
+                            <?php
+                            }
+                            if (isset($_SESSION['timelock'])) {
+                                $timeLeft = $_SESSION['timelock'] + 120 - time(); ?>
+                                <div class="form-group bg-warning rounded mt-2 ">
+                                    <p class="col-md-12 control-label text-danger">Se ha alcanzado el número máximo de errores. Por favor, espere: <?php echo $timeLeft ?> segundos</p>
+                                </div>
+
+                            <?php
+
+                            }
+                            ?>
+                            <div class="form-group pb-1">
+                                <input id="remember" name="remember" type="checkbox" value="1" class="px-1"><label class="px-1">Remember me</label>
                             </div>
-                            <div class="form-group">
-                                <label class="col-md-6 control-label" for="submit"></label>
+                            <div class="form-group m-1">
+                                <label class="control-label" for="submit"></label>
+                                <button id="submit" name="submit" class="btn btn-primary">Entrar</button>
                             </div>
-                            <button id="submit" name="submit" class="btn btn-primary">Entrar</button>
                         </fieldset>
-                    </div>
                 </div>
-            </form> 
+            </div>
+            </form>
         </div>
     </section>
-        
+
 </body>
 
 </html>
